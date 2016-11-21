@@ -41,8 +41,11 @@ group :development do
 end
 
 group :test do
+  # If tests get sluggish, see Hartl Box 3.4. Unix processes
   gem 'rails-controller-testing', '0.1.1'
+  # see Hartl's chapter 3.6.1 minitest reporters
   gem 'minitest-reporters', '1.1.9'
+  # see Hartl's chapter 3.6.2 Automated tests with Guard
   gem 'guard', '2.13.0'
   gem 'guard-minitest', '2.4.4'
 end
