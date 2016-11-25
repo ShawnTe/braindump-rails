@@ -5,7 +5,12 @@ class UserTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @user = User.create(name: "Example User", email: "Example@user.com")
+    @user = User.create(
+      name: "Example User",
+      email: "Example@user.com",
+      password: "foobar",
+      password_confirmation: "foobar"
+      )
   end
 
   test "should be vaild" do
@@ -33,8 +38,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email validation should reject invalid addresses" do
-    invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
-                           foo@bar_baz.com foo@bar+baz.com jojo@bebop..com ]
+    invalid_addresses = %w[
+      user@example,com
+      user_at_foo.org
+      user.name@example.
+      foo@bar_baz.com
+      foo@bar+baz.com
+      jojo@bebop..com
+    ]
     invalid_addresses.each do |invalid_address|
       @user.email = invalid_address
       assert_not @user.valid?, "#{invalid_address.inspect} should be invalid"
@@ -53,6 +64,16 @@ class UserTest < ActiveSupport::TestCase
     @user.email = mixed_case_format
     @user.save
     assert_equal mixed_case_format.downcase, @user.reload.email
+  end
+
+  test "password should not be blank" do
+    @user.password = @user.password_digest = " " * 8
+    assert_not @user.valid?
+  end
+
+  test "password should be minimum 6 characters" do
+    @user.password = @user.password_digest = "123"
+    assert_not @user.valid?
   end
 
 end
