@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     p '*' * 40
     @user = User.new(user_params)
     if @user.save
+      flash[:success] = "Welcome to the place to dump the contents of your brain!"
       redirect_to @user
     else
       render 'new'
