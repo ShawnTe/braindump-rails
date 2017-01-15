@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @user = User.create(
+    @user = User.new(
       name: "Example User",
       email: "Example@user.com",
       password: "foobar",
@@ -76,4 +76,11 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "associated microposts should be destroyed when user destroyed" do
+    @user.save
+    @user.microposts.create(content: "Content of micropost")
+    assert_difference 'Micropost.count', -1 do
+      @user.destroy
+    end
+  end
 end
