@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
     @count = @microposts.count
+    @micropost = @user.microposts.build
   end
 
   def new
